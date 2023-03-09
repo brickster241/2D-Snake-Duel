@@ -7,6 +7,7 @@ public class SnakePlayer : MonoBehaviour
     Vector2 direction = Vector2.right;
     public GameObject snakeSegmentPrefab;
     [SerializeField] Transform SnakeSegments;
+    [SerializeField] UIController uIController;
     List<Transform> snakeSegmentPositions;
     
     public GridManager gridManager;
@@ -90,6 +91,8 @@ public class SnakePlayer : MonoBehaviour
                     transform.position = new Vector3(currPos.x, Constants.Y_BOUND_TOP, currPos.z);
                     break;
             }
+        } else if (other.gameObject.CompareTag(Constants.FOOD)) {
+            uIController.IncrementScore();
         }
     }
 }

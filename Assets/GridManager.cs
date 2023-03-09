@@ -6,12 +6,7 @@ public class GridManager : MonoBehaviour
 {
     public bool isGameOver = false;
     public Dictionary<Vector3Int, bool> isSnakeSegmentOnTile;
-    public enum FoodType {
-    MASS_GAINER,
-    MASS_BURNER, 
-    NORMAL 
-    }
-
+    
     public void SetGridValue(Vector3 position, bool value) {
         Vector3Int v3pos = Constants.ConvertToVector3Int(position);
         if (isSnakeSegmentOnTile.ContainsKey(v3pos)) {
