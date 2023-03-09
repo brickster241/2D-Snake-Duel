@@ -2061,6 +2061,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameOver: 0
+  spriteManager:
+  - foodType: 1
+    sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  - foodType: 0
+    sprite: {fileID: -2135585597343286014, guid: eed45a33cd08446c8b88325cf82fc52f, type: 3}
 --- !u!1 &1910139268
 GameObject:
   m_ObjectHideFlags: 0

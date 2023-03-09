@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SnakePlayer : MonoBehaviour
 {
     Vector2 direction = Vector2.right;
@@ -56,7 +57,9 @@ public class SnakePlayer : MonoBehaviour
         UpdateSnakeMovementAndColor();
     } 
 
-    public void AddSnakeSegments(int additionalSegments) {
+    // additionalSegments will change based on MASS_GAINER
+    public void AddSnakeSegments(FoodType foodType) {
+        int additionalSegments = (foodType == FoodType.MASS_GAINER) ? Constants.SEGMENTS_MASS_GAINER : 1;
         for (int i = 0; i < additionalSegments; i++)
             AddSnakeSegment();
     }
