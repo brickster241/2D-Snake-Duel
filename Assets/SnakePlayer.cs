@@ -109,12 +109,18 @@ public class SnakePlayer : MonoBehaviour
                     break;
             }
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
-            uIController.IncrementScore();
             AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
+            uIController.IncrementScore();
             switch (spawnedFood.foodType)
             {
                 case FoodType.SPEED:
-                    StartCoroutine(EnableSpeed(uIController.SpeedField));
+                    StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
+                    break;
+                case FoodType.MULTIPLIER:
+                    StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
+                    break;
+                case FoodType.SHIELD:
+                    StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
                     break;
                 default:
                     break;
@@ -122,16 +128,29 @@ public class SnakePlayer : MonoBehaviour
         }
     }
 
-    IEnumerator EnableSpeed(GameObject obj) {
+    IEnumerator EnablePowerUp(GameObject obj, FoodType foodType) {
         Image fieldImg = obj.GetComponent<Image>();
         TextMeshProUGUI textField = obj.GetComponentInChildren<TextMeshProUGUI>();
-
-        float currentTimeScale = Time.fixedDeltaTime;
-        Time.fixedDeltaTime = currentTimeScale - 0.02f;
         fieldImg.color = Color.green;
         textField.color = Color.black;
-        yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
-        Time.fixedDeltaTime = currentTimeScale;
+        switch (foodType)
+        {
+            case FoodType.SPEED:
+                Time.fixedDeltaTime = 0.03f;
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                Time.fixedDeltaTime = 0.07f;        
+                break;
+            case FoodType.MULTIPLIER:
+                uIController.increment = Constants.MULTIPLIER_INCREMENT;
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                uIController.increment = 1;
+                break;
+            case FoodType.SHIELD:
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                break;
+            default:
+                break;
+        }
         fieldImg.color = Color.black;
         textField.color = Color.white;
         

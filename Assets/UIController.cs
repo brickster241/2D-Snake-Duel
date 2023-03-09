@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     public GameObject PauseButton;
 
     public int currentScore = 0;
+    public int increment = 1;
     
     void Start()
     {
@@ -30,6 +31,6 @@ public class UIController : MonoBehaviour
     }
 
     public void IncrementScore() {
-        currentScore += 1;
+        currentScore += increment;
     }
 }

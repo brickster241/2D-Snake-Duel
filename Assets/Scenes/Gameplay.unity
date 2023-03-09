@@ -2017,6 +2017,7 @@ MonoBehaviour:
   ScoreField: {fileID: 3367649}
   PauseButton: {fileID: 2124788263}
   currentScore: 0
+  increment: 1
 --- !u!1 &1871550858
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2072,10 @@ MonoBehaviour:
     sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   - foodType: 5
     sprite: {fileID: -9095717837082945937, guid: bd3cb4af8406d4436a2ae8c2aafe1f8d, type: 3}
+  - foodType: 4
+    sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
+  - foodType: 3
+    sprite: {fileID: 21300000, guid: e4eac14c268093e43a8dfd6a13290a35, type: 3}
 --- !u!1 &1910139268
 GameObject:
   m_ObjectHideFlags: 0

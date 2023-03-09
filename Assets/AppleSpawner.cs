@@ -24,7 +24,7 @@ public class AppleSpawner : MonoBehaviour
             position_x = Mathf.Round(UnityEngine.Random.Range(-Constants.X_BOUND, Constants.X_BOUND));
             position_y = Mathf.Round(UnityEngine.Random.Range(Constants.Y_BOUND_BOTTOM, Constants.Y_BOUND_TOP));
         } while (gridManager.isSnakeSegmentOnTile.GetValueOrDefault(new Vector3Int((int)position_x, (int)position_y), false));
-        transform.localScale = (foodType == FoodType.SPEED) ? new Vector3(0.5f, 0.5f, 1f) : new Vector3(1f, 1f, 1f);
+        SetTransformScale(foodType);
         transform.position = new Vector3(position_x, position_y, 0f);
     }
 
@@ -66,11 +66,31 @@ public class AppleSpawner : MonoBehaviour
             foodType = FoodType.MASS_BURNER;
         } else if (200 <= random && random < 300) {
             foodType = FoodType.SPEED;
+        } else if (300 <= random && random < 400) {
+            foodType = FoodType.MULTIPLIER;
+        } else if (400 <= random && random < 500) {
+            foodType = FoodType.SHIELD;
         } else {
             foodType = FoodType.NORMAL;
         }
         
         Sprite sprite = Array.Find(sprites, item => item.foodType == foodType).sprite;
         return sprite;
+    }
+
+
+    private void SetTransformScale(FoodType foodType) {
+        switch (foodType)
+        {
+            case FoodType.SPEED:
+                transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                break;
+            case FoodType.SHIELD:
+                transform.localScale = new Vector3(0.25f, 0.25f, 1f);
+                break;
+            default:
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                break;
+        }
     }
 }
