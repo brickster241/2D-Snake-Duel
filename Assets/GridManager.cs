@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FoodType {
+    MASS_GAINER,
+    NORMAL,
+    MASS_BURNER,
+    SHIELD,
+    MULTIPLIER,
+    SPEED
+}
+
 [System.Serializable]
 public class SpriteInfo {
     public FoodType foodType;

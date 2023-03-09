@@ -3,16 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FoodType {
-    MASS_GAINER,
-    NORMAL,
-    MASS_BURNER,
-    SHIELD,
-    MULTIPLIER,
-    SPEED
-}
-
-
 public class AppleSpawner : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
@@ -34,6 +24,7 @@ public class AppleSpawner : MonoBehaviour
             position_x = Mathf.Round(UnityEngine.Random.Range(-Constants.X_BOUND, Constants.X_BOUND));
             position_y = Mathf.Round(UnityEngine.Random.Range(Constants.Y_BOUND_BOTTOM, Constants.Y_BOUND_TOP));
         } while (gridManager.isSnakeSegmentOnTile.GetValueOrDefault(new Vector3Int((int)position_x, (int)position_y), false));
+        transform.localScale = (foodType == FoodType.SPEED) ? new Vector3(0.5f, 0.5f, 1f) : new Vector3(1f, 1f, 1f);
         transform.position = new Vector3(position_x, position_y, 0f);
     }
 
@@ -45,8 +36,7 @@ public class AppleSpawner : MonoBehaviour
                 snakePlayer.AddSnakeSegments(foodType);
             } else {
                 snakePlayer.RemoveSnakeSegments();
-            }
-                
+            }   
             StartCoroutine(FoodSpawner());
         }
     }
@@ -74,6 +64,8 @@ public class AppleSpawner : MonoBehaviour
             foodType = FoodType.MASS_GAINER;
         } else if (100 <= random && random < 200) {
             foodType = FoodType.MASS_BURNER;
+        } else if (200 <= random && random < 300) {
+            foodType = FoodType.SPEED;
         } else {
             foodType = FoodType.NORMAL;
         }

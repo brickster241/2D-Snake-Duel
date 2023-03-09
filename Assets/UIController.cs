@@ -6,11 +6,11 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject ShieldField;
-    [SerializeField] GameObject MultiplierField;
-    [SerializeField] GameObject SpeedField;
-    [SerializeField] TextMeshProUGUI ScoreField;
-    [SerializeField] GameObject PauseButton;
+    public GameObject ShieldField;
+    public GameObject MultiplierField;
+    public GameObject SpeedField;
+    public TextMeshProUGUI ScoreField;
+    public GameObject PauseButton;
 
     public int currentScore = 0;
     

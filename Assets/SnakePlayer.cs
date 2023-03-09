@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class SnakePlayer : MonoBehaviour
 {
@@ -109,6 +110,30 @@ public class SnakePlayer : MonoBehaviour
             }
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
             uIController.IncrementScore();
+            AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
+            switch (spawnedFood.foodType)
+            {
+                case FoodType.SPEED:
+                    StartCoroutine(EnableSpeed(uIController.SpeedField));
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    IEnumerator EnableSpeed(GameObject obj) {
+        Image fieldImg = obj.GetComponent<Image>();
+        TextMeshProUGUI textField = obj.GetComponentInChildren<TextMeshProUGUI>();
+
+        float currentTimeScale = Time.fixedDeltaTime;
+        Time.fixedDeltaTime = currentTimeScale - 0.02f;
+        fieldImg.color = Color.green;
+        textField.color = Color.black;
+        yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+        Time.fixedDeltaTime = currentTimeScale;
+        fieldImg.color = Color.black;
+        textField.color = Color.white;
+        
     }
 }

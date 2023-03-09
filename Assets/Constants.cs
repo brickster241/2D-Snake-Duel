@@ -17,6 +17,7 @@ public class Constants
     public const float FOOD_DISABLED_INTERVAL = 3f;
     public const int SEGMENTS_MASS_GAINER = 4;
     public const int SEGMENTS_MASS_BURNER = 6;
+    public const float POWER_UP_INTERVAL = 10f;
 
     public static Vector3Int ConvertToVector3Int(Vector3 position) {
         return new Vector3Int((int)Mathf.Round(position.x), (int)Mathf.Round(position.y), 0);
