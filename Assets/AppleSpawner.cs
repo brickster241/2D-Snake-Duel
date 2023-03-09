@@ -18,7 +18,7 @@ public class AppleSpawner : MonoBehaviour
     SpriteRenderer spriteRenderer;
     BoxCollider2D bc2d;
     [SerializeField] GridManager gridManager;
-    FoodType foodType;
+    public FoodType foodType;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -41,7 +41,12 @@ public class AppleSpawner : MonoBehaviour
         if (other.gameObject.GetComponent<SnakePlayer>() != null) {
             SnakePlayer snakePlayer = other.gameObject.GetComponent<SnakePlayer>();
             StopAllCoroutines();
-            snakePlayer.AddSnakeSegments(foodType);
+            if (foodType != FoodType.MASS_BURNER) {
+                snakePlayer.AddSnakeSegments(foodType);
+            } else {
+                snakePlayer.RemoveSnakeSegments();
+            }
+                
             StartCoroutine(FoodSpawner());
         }
     }
@@ -52,9 +57,7 @@ public class AppleSpawner : MonoBehaviour
             Color srColor = spriteRenderer.color;
             spriteRenderer.color = new Color(srColor.r, srColor.g, srColor.b, 0f);
             bc2d.enabled = false;
-            foodType = FoodType.NORMAL;
             yield return new WaitForSeconds(Constants.FOOD_DISABLED_INTERVAL);
-
             // Add New Sprite on Probability
             spriteRenderer.sprite = GetRandomizedSprite();
             spriteRenderer.color = new Color(srColor.r, srColor.g, srColor.b, 1f);
@@ -69,6 +72,8 @@ public class AppleSpawner : MonoBehaviour
         float random = UnityEngine.Random.Range(1, 1000);
         if (0 <= random && random < 100) {
             foodType = FoodType.MASS_GAINER;
+        } else if (100 <= random && random < 200) {
+            foodType = FoodType.MASS_BURNER;
         } else {
             foodType = FoodType.NORMAL;
         }
