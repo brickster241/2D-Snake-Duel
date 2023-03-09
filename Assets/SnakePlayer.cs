@@ -64,10 +64,23 @@ public class SnakePlayer : MonoBehaviour
             AddSnakeSegment();
     }
 
+    // decreaseSegments will change based on MASS_BURNER
+    public void RemoveSnakeSegments() {
+        int startingIndex = Mathf.Max(snakeSegmentPositions.Count - Constants.SEGMENTS_MASS_BURNER, 1);
+        int initialLength = snakeSegmentPositions.Count;
+        for (int index = initialLength - 1; index > startingIndex; index--)
+        {
+            Transform currTransform = snakeSegmentPositions[index];
+            gridManager.SetGridValue(currTransform.position, false);
+            snakeSegmentPositions.Remove(currTransform);
+            Destroy(currTransform.gameObject);
+        }
+    }
+
     private void AddSnakeSegment() {
         Transform segmentTail = Instantiate(this.snakeSegmentPrefab, SnakeSegments).transform;
         segmentTail.position = snakeSegmentPositions[snakeSegmentPositions.Count - 1].position;
-
+        gridManager.SetGridValue(segmentTail.position, true);
         snakeSegmentPositions.Add(segmentTail);
     }
 
