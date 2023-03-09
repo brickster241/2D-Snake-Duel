@@ -39,7 +39,7 @@ public class SnakePlayer : MonoBehaviour
         for (int index = currentSegments - 1; index > 0; index--) {
             snakeSegmentPositions[index].position = snakeSegmentPositions[index - 1].position;
             SpriteRenderer segmentSr = snakeSegmentPositions[index].gameObject.GetComponent<SpriteRenderer>();
-            segmentSr.color = new Color(0, 1, 0, 0.5f + (currentSegments - index) * alphaDiff);
+            segmentSr.color = new Color(segmentSr.color.r, segmentSr.color.g, segmentSr.color.b, 0.5f + (currentSegments - index) * alphaDiff);
         }
     
         Vector3 position = transform.position;

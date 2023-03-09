@@ -12,6 +12,8 @@ public class Constants
     public const int X_BOUND = 24;
     public const int Y_BOUND_TOP = 10;
     public const int Y_BOUND_BOTTOM = -12;
+    public const float FOOD_SPAWN_INTERVAL = 10f;
+    public const float FOOD_DISABLED_INTERVAL = 3f;
 
     public static Vector3Int ConvertToVector3Int(Vector3 position) {
         return new Vector3Int((int)Mathf.Round(position.x), (int)Mathf.Round(position.y), 0);
