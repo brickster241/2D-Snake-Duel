@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SnakePlayer : MonoBehaviour
 {
     Vector2 direction = Vector2.right;
     public GameObject snakeSegmentPrefab;
     [SerializeField] Transform SnakeSegments;
+    [SerializeField] UIController uIController;
     List<Transform> snakeSegmentPositions;
     
     public GridManager gridManager;
@@ -39,7 +41,7 @@ public class SnakePlayer : MonoBehaviour
         for (int index = currentSegments - 1; index > 0; index--) {
             snakeSegmentPositions[index].position = snakeSegmentPositions[index - 1].position;
             SpriteRenderer segmentSr = snakeSegmentPositions[index].gameObject.GetComponent<SpriteRenderer>();
-            segmentSr.color = new Color(0, 1, 0, 0.5f + (currentSegments - index) * alphaDiff);
+            segmentSr.color = new Color(segmentSr.color.r, segmentSr.color.g, segmentSr.color.b, 0.5f + (currentSegments - index) * alphaDiff);
         }
     
         Vector3 position = transform.position;
@@ -55,7 +57,9 @@ public class SnakePlayer : MonoBehaviour
         UpdateSnakeMovementAndColor();
     } 
 
-    public void AddSnakeSegments(int additionalSegments) {
+    // additionalSegments will change based on MASS_GAINER
+    public void AddSnakeSegments(FoodType foodType) {
+        int additionalSegments = (foodType == FoodType.MASS_GAINER) ? Constants.SEGMENTS_MASS_GAINER : 1;
         for (int i = 0; i < additionalSegments; i++)
             AddSnakeSegment();
     }
@@ -90,6 +94,8 @@ public class SnakePlayer : MonoBehaviour
                     transform.position = new Vector3(currPos.x, Constants.Y_BOUND_TOP, currPos.z);
                     break;
             }
+        } else if (other.gameObject.CompareTag(Constants.FOOD)) {
+            uIController.IncrementScore();
         }
     }
 }
