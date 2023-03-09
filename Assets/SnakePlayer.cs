@@ -11,6 +11,9 @@ public class SnakePlayer : MonoBehaviour
     [SerializeField] Transform SnakeSegments;
     [SerializeField] UIController uIController;
     List<Transform> snakeSegmentPositions;
+    Coroutine speed = null;
+    Coroutine multiplier = null;
+    Coroutine shield = null;
     
     public GridManager gridManager;
     
@@ -114,13 +117,19 @@ public class SnakePlayer : MonoBehaviour
             switch (spawnedFood.foodType)
             {
                 case FoodType.SPEED:
-                    StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
+                    if (speed != null)
+                        StopCoroutine(speed);
+                    speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
                     break;
                 case FoodType.MULTIPLIER:
-                    StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
+                    if (multiplier != null)
+                        StopCoroutine(multiplier);
+                    multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
                     break;
                 case FoodType.SHIELD:
-                    StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
+                    if (shield != null) 
+                        StopCoroutine(shield);
+                    shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
                     break;
                 default:
                     break;

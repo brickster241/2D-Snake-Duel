@@ -71,7 +71,7 @@ public class AppleSpawner : MonoBehaviour
         } else if (400 <= random && random < 500) {
             foodType = FoodType.SHIELD;
         } else {
-            foodType = FoodType.NORMAL;
+            foodType = FoodType.SHIELD;
         }
         
         Sprite sprite = Array.Find(sprites, item => item.foodType == foodType).sprite;
