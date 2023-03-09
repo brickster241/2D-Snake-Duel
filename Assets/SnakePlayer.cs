@@ -8,13 +8,13 @@ public class SnakePlayer : MonoBehaviour
     public GameObject snakeSegmentPrefab;
     [SerializeField] Transform SnakeSegments;
     List<Transform> snakeSegmentPositions;
-    public Dictionary<Vector3Int, bool> isSnakeSegmentOnTile;
-
+    
+    public GridManager gridManager;
+    
     private void Start() {
         snakeSegmentPositions = new List<Transform>();
-        isSnakeSegmentOnTile = new Dictionary<Vector3Int, bool>();
         snakeSegmentPositions.Add(this.transform);
-        isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
+        gridManager.isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
     }
 
     private void UpdateSnakeDirection() {
@@ -34,7 +34,7 @@ public class SnakePlayer : MonoBehaviour
         float alphaDiff = (currentSegments != 1) ? 0.5f /(currentSegments - 1) : 0f;
 
         // Last Tile SetGridValue to false
-        SetGridValue(snakeSegmentPositions[currentSegments - 1].position, false);
+        gridManager.SetGridValue(snakeSegmentPositions[currentSegments - 1].position, false);
 
         for (int index = currentSegments - 1; index > 0; index--) {
             snakeSegmentPositions[index].position = snakeSegmentPositions[index - 1].position;
@@ -48,23 +48,19 @@ public class SnakePlayer : MonoBehaviour
         transform.position = new Vector3(position.x, position.y, 0f);
 
         // Set Head to true
-        SetGridValue(transform.position, true);
-    }
-
-    private void SetGridValue(Vector3 position, bool value) {
-        Vector3Int v3pos = Constants.ConvertToVector3Int(position);
-        if (isSnakeSegmentOnTile.ContainsKey(v3pos)) {
-            isSnakeSegmentOnTile[v3pos] = value;
-        } else {
-            isSnakeSegmentOnTile.Add(v3pos, value);
-        }
+        gridManager.SetGridValue(transform.position, true);
     }
 
     private void FixedUpdate() {
         UpdateSnakeMovementAndColor();
     } 
 
-    public void AddSnakeSegment() {
+    public void AddSnakeSegments(int additionalSegments) {
+        for (int i = 0; i < additionalSegments; i++)
+            AddSnakeSegment();
+    }
+
+    private void AddSnakeSegment() {
         Transform segmentTail = Instantiate(this.snakeSegmentPrefab, SnakeSegments).transform;
         segmentTail.position = snakeSegmentPositions[snakeSegmentPositions.Count - 1].position;
 
@@ -88,10 +84,10 @@ public class SnakePlayer : MonoBehaviour
                     transform.position = new Vector3(-Constants.X_BOUND, currPos.y, currPos.z);
                     break;
                 case Constants.TOP_WALL:
-                    transform.position = new Vector3(currPos.x, -Constants.Y_BOUND, currPos.z);
+                    transform.position = new Vector3(currPos.x, Constants.Y_BOUND_BOTTOM, currPos.z);
                     break;
                 case Constants.BOTTOM_WALL:
-                    transform.position = new Vector3(currPos.x, Constants.Y_BOUND, currPos.z);
+                    transform.position = new Vector3(currPos.x, Constants.Y_BOUND_TOP, currPos.z);
                     break;
             }
         }
