@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class AppleSpawner : MonoBehaviour
 {
-    int X_BOUND = 23;
-    int Y_BOUND = 11;
     void Start()
     {
-        RespawnApple();
+        float position_x = Mathf.Round(Random.Range(-Constants.X_BOUND, Constants.X_BOUND));
+        float position_y = Mathf.Round(Random.Range(-Constants.Y_BOUND, Constants.Y_BOUND));
+        transform.position = new Vector3(position_x, position_y, 0f);
     }
 
-    void RespawnApple() {
-        float position_x = Mathf.Round(Random.Range(-X_BOUND, X_BOUND));
-        float position_y = Mathf.Round(Random.Range(-Y_BOUND, Y_BOUND));
+    void RespawnApple(Dictionary<Vector3Int, bool> dict) {
+        float position_x, position_y;
+        do
+        {
+            position_x = Mathf.Round(Random.Range(-Constants.X_BOUND, Constants.X_BOUND));
+            position_y = Mathf.Round(Random.Range(-Constants.Y_BOUND, Constants.Y_BOUND));
+        } while (dict.GetValueOrDefault(new Vector3Int((int)position_x, (int)position_y), false));
+        
         transform.position = new Vector3(position_x, position_y, 0f);
     }
 
@@ -21,7 +26,7 @@ public class AppleSpawner : MonoBehaviour
         if (other.gameObject.GetComponent<SnakePlayer>() != null) {
             SnakePlayer snakePlayer = other.gameObject.GetComponent<SnakePlayer>();
             snakePlayer.AddSnakeSegment();
-            RespawnApple();
+            RespawnApple(snakePlayer.isSnakeSegmentOnTile);
         }
     }
 }
