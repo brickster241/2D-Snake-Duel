@@ -982,7 +982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 371391429}
   m_Layer: 0
-  m_Name: SnakeSegments
+  m_Name: Player1Segments
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4082,11 +4082,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2050153904}
   - component: {fileID: 2050153903}
-  - component: {fileID: 2050153905}
+  - component: {fileID: 2050153908}
   - component: {fileID: 2050153906}
   - component: {fileID: 2050153907}
   m_Layer: 0
-  m_Name: Snake
+  m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4159,22 +4159,6 @@ Transform:
   m_Father: {fileID: 679869692}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2050153905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2050153902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb8119656052e77459e685d708f290f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snakeSegmentPrefab: {fileID: 8030013366506527603, guid: 240cbe2030675524dba608681962d0d1, type: 3}
-  SnakeSegments: {fileID: 371391429}
-  uIController: {fileID: 1828131860}
-  gridManager: {fileID: 1871550860}
 --- !u!61 &2050153906
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4222,6 +4206,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2050153908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050153902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f96e813f6ca674f834261395c8d34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerType: 0
+  SnakeSegments: {fileID: 371391429}
+  uIController: {fileID: 1828131860}
+  gridManager: {fileID: 1871550860}
+  snakeSegmentPrefab: {fileID: 8030013366506527603, guid: 240cbe2030675524dba608681962d0d1, type: 3}
 --- !u!1 &2064045648
 GameObject:
   m_ObjectHideFlags: 0

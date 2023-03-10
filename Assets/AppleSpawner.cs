@@ -32,8 +32,8 @@ public class AppleSpawner : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.GetComponent<SnakePlayer>() != null) {
-            SnakePlayer snakePlayer = other.gameObject.GetComponent<SnakePlayer>();
+        if (other.gameObject.GetComponent<SnakeGameManager>() != null) {
+            SnakeGameManager snakePlayer = other.gameObject.GetComponent<SnakeGameManager>();
             StopAllCoroutines();
             if (foodType != FoodType.MASS_BURNER) {
                 snakePlayer.AddSnakeSegments(foodType);

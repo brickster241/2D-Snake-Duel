@@ -2,15 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum SceneType {
+    MAIN_MENU,
+    ONE_PLAYER,
+    TWO_PLAYER
+}
 
 public class AudioManager : MonoBehaviour
 {
+    public static SceneType currentScene;
     public static AudioManager Instance { get; private set;}
     [SerializeField] AudioInfo[] sounds;
 
     private void Awake() {
         if (Instance == null) {
             Instance = this;
+            currentScene = SceneType.MAIN_MENU;
             DontDestroyOnLoad(gameObject);
         } else {
             Destroy(gameObject);
@@ -36,6 +45,10 @@ public class AudioManager : MonoBehaviour
     public void Stop(AudioType audioType) {
         AudioInfo soundInfo = Array.Find(sounds, item => item.audioType == audioType);
         soundInfo.audioSource.Stop();
+    }
+
+    private void Update() {
+        currentScene = (SceneType) SceneManager.GetActiveScene().buildIndex; 
     }
 }
 
