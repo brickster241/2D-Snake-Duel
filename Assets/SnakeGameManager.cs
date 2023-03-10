@@ -1,49 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class SnakePlayer : MonoBehaviour
+public enum PlayerType {
+    PLAYER_1,
+    PLAYER_2
+}
+
+
+public class SnakeGameManager : MonoBehaviour
 {
-    Vector2 direction = Vector2.right;
-    public GameObject snakeSegmentPrefab;
+    [SerializeField] PlayerType playerType;
     [SerializeField] Transform SnakeSegments;
     [SerializeField] UIController uIController;
+    Vector2 playerDirection;
     List<Transform> snakeSegmentPositions;
     Coroutine speed = null;
     Coroutine multiplier = null;
     Coroutine shield = null;
-    
     public GridManager gridManager;
-    
+    public GameObject snakeSegmentPrefab;
+
+    private void Awake() {
+        playerDirection = (playerType == PlayerType.PLAYER_1) ? Vector2.right : Vector2.left;
+        this.GetComponent<SpriteRenderer>().color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan;
+        snakeSegmentPrefab.GetComponent<SpriteRenderer>().color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan; 
+    }
+
     private void Start() {
         snakeSegmentPositions = new List<Transform>();
         snakeSegmentPositions.Add(this.transform);
         gridManager.isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
-        StartCoroutine(WaitScene());
     }
 
-    IEnumerator WaitScene() {
-        AudioManager.Instance.Play(AudioType.GAME_START);
-        Time.timeScale = Constants.SLOWED_DELAY_TIME_SCALE;
-        yield return new WaitForSeconds(Constants.SCENE_LOADING_WAIT_TIME);
-        Time.timeScale = 1f;
-    }
-
-    private void UpdateSnakeDirection() {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && direction != Vector2.down) {
-            direction = Vector2.up;
-        } else if (Input.GetKeyDown(KeyCode.DownArrow) && direction != Vector2.up) {
-            direction = Vector2.down;
-        } else if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != Vector2.right) {
-            direction = Vector2.left;
-        } else if (Input.GetKeyDown(KeyCode.RightArrow) && direction != Vector2.left) {
-            direction = Vector2.right;
-        }
-    }
-
-    private void UpdateSnakeMovementAndColor() {
+    private void UpdatePlayerMovementAndColor() {
         int currentSegments = snakeSegmentPositions.Count;
         float alphaDiff = (currentSegments != 1) ? 0.5f /(currentSegments - 1) : 0f;
 
@@ -57,16 +50,16 @@ public class SnakePlayer : MonoBehaviour
         }
     
         Vector3 position = transform.position;
-        position.x = Mathf.Round(position.x + direction.x);
-        position.y = Mathf.Round(position.y + direction.y);
+        position.x = Mathf.Round(position.x + playerDirection.x);
+        position.y = Mathf.Round(position.y + playerDirection.y);
         transform.position = new Vector3(position.x, position.y, 0f);
 
         // Set Head to true
         gridManager.SetGridValue(transform.position, true);
     }
 
-    private void FixedUpdate() {
-        UpdateSnakeMovementAndColor();
+     private void FixedUpdate() {
+        UpdatePlayerMovementAndColor();
     } 
 
     // additionalSegments will change based on MASS_GAINER
@@ -97,9 +90,37 @@ public class SnakePlayer : MonoBehaviour
     }
 
     private void Update() {
-        UpdateSnakeDirection();
+        UpdatePlayerDirection();
     }
 
+    private void UpdatePlayerDirection() {
+        switch (playerType)
+        {
+            case PlayerType.PLAYER_1:
+                if (Input.GetKeyDown(KeyCode.UpArrow) && playerDirection != Vector2.down) {
+                    playerDirection = Vector2.up;
+                } else if (Input.GetKeyDown(KeyCode.DownArrow) && playerDirection != Vector2.up) {
+                    playerDirection = Vector2.down;
+                } else if (Input.GetKeyDown(KeyCode.LeftArrow) && playerDirection != Vector2.right) {
+                    playerDirection = Vector2.left;
+                } else if (Input.GetKeyDown(KeyCode.RightArrow) && playerDirection != Vector2.left) {
+                    playerDirection = Vector2.right;
+                }
+                break;
+            case PlayerType.PLAYER_2:
+                if (Input.GetKeyDown(KeyCode.W) && playerDirection != Vector2.down) {
+                    playerDirection = Vector2.up;
+                } else if (Input.GetKeyDown(KeyCode.S) && playerDirection != Vector2.up) {
+                    playerDirection = Vector2.down;
+                } else if (Input.GetKeyDown(KeyCode.A) && playerDirection != Vector2.right) {
+                    playerDirection = Vector2.left;
+                } else if (Input.GetKeyDown(KeyCode.D) && playerDirection != Vector2.left) {
+                    playerDirection = Vector2.right;
+                }
+                break;
+        }
+    }
+    
     private void WallCollisionHandler(Collider2D other) {
         string name = other.gameObject.name;
         Vector3 currPos = transform.position;
@@ -160,7 +181,7 @@ public class SnakePlayer : MonoBehaviour
     IEnumerator EnablePowerUp(GameObject obj, FoodType foodType) {
         Image fieldImg = obj.GetComponent<Image>();
         TextMeshProUGUI textField = obj.GetComponentInChildren<TextMeshProUGUI>();
-        fieldImg.color = Color.green;
+        fieldImg.color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan;
         textField.color = Color.black;
         switch (foodType)
         {
@@ -184,4 +205,5 @@ public class SnakePlayer : MonoBehaviour
         textField.color = Color.white;
         
     }
+
 }
