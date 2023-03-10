@@ -2,18 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class AppleSpawner : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     BoxCollider2D bc2d;
     [SerializeField] GridManager gridManager;
-    public FoodType foodType;
+    [HideInInspector] public FoodType foodType;
+    TextMeshPro spriteText;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         bc2d = GetComponent<BoxCollider2D>();
+        spriteText = GetComponentInChildren<TextMeshPro>();
         foodType = FoodType.NORMAL;
+        spriteText.text = Constants.SpriteText[(int)foodType];
         StartCoroutine(FoodSpawner());
     }
 
@@ -24,7 +28,6 @@ public class AppleSpawner : MonoBehaviour
             position_x = Mathf.Round(UnityEngine.Random.Range(-Constants.X_BOUND, Constants.X_BOUND));
             position_y = Mathf.Round(UnityEngine.Random.Range(Constants.Y_BOUND_BOTTOM, Constants.Y_BOUND_TOP));
         } while (gridManager.isSnakeSegmentOnTile.GetValueOrDefault(new Vector3Int((int)position_x, (int)position_y), false));
-        SetTransformScale(foodType);
         transform.position = new Vector3(position_x, position_y, 0f);
     }
 
@@ -43,22 +46,20 @@ public class AppleSpawner : MonoBehaviour
 
     IEnumerator FoodSpawner() {
         while (!gridManager.isGameOver) {
-            // Update Sprite Color
-            Color srColor = spriteRenderer.color;
-            spriteRenderer.color = new Color(srColor.r, srColor.g, srColor.b, 0f);
+            spriteRenderer.color = Constants.COLOR_FOOD_DISABLED;
             bc2d.enabled = false;
+            spriteText.enabled = false;
             yield return new WaitForSeconds(Constants.FOOD_DISABLED_INTERVAL);
-            // Add New Sprite on Probability
-            spriteRenderer.sprite = GetRandomizedSprite();
-            spriteRenderer.color = new Color(srColor.r, srColor.g, srColor.b, 1f);
+            SetRandomFoodAndTextType();
+            spriteRenderer.color = Constants.COLOR_FOOD_ENABLED;
             bc2d.enabled = true;
+            spriteText.enabled = true;
             RespawnApple();
             yield return new WaitForSeconds(Constants.FOOD_SPAWN_INTERVAL);
         }
     }
 
-    Sprite GetRandomizedSprite() {
-        SpriteInfo[] sprites = gridManager.spriteManager;
+    void SetRandomFoodAndTextType() {
         float random = UnityEngine.Random.Range(1, 1000);
         if (0 <= random && random < 100) {
             foodType = FoodType.MASS_GAINER;
@@ -71,26 +72,8 @@ public class AppleSpawner : MonoBehaviour
         } else if (400 <= random && random < 500) {
             foodType = FoodType.SHIELD;
         } else {
-            foodType = FoodType.SHIELD;
+            foodType = FoodType.NORMAL;
         }
-        
-        Sprite sprite = Array.Find(sprites, item => item.foodType == foodType).sprite;
-        return sprite;
-    }
-
-
-    private void SetTransformScale(FoodType foodType) {
-        switch (foodType)
-        {
-            case FoodType.SPEED:
-                transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-                break;
-            case FoodType.SHIELD:
-                transform.localScale = new Vector3(0.25f, 0.25f, 1f);
-                break;
-            default:
-                transform.localScale = new Vector3(1f, 1f, 1f);
-                break;
-        }
+        spriteText.text = Constants.SpriteText[(int)foodType];
     }
 }
