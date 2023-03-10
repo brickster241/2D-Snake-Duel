@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 
 public class SnakePlayer : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class SnakePlayer : MonoBehaviour
     [SerializeField] Transform SnakeSegments;
     [SerializeField] UIController uIController;
     List<Transform> snakeSegmentPositions;
+    Coroutine speed = null;
+    Coroutine multiplier = null;
+    Coroutine shield = null;
     
     public GridManager gridManager;
     
@@ -108,7 +112,56 @@ public class SnakePlayer : MonoBehaviour
                     break;
             }
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
+            AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
             uIController.IncrementScore();
+            switch (spawnedFood.foodType)
+            {
+                case FoodType.SPEED:
+                    if (speed != null)
+                        StopCoroutine(speed);
+                    speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
+                    break;
+                case FoodType.MULTIPLIER:
+                    if (multiplier != null)
+                        StopCoroutine(multiplier);
+                    multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
+                    break;
+                case FoodType.SHIELD:
+                    if (shield != null) 
+                        StopCoroutine(shield);
+                    shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    IEnumerator EnablePowerUp(GameObject obj, FoodType foodType) {
+        Image fieldImg = obj.GetComponent<Image>();
+        TextMeshProUGUI textField = obj.GetComponentInChildren<TextMeshProUGUI>();
+        fieldImg.color = Color.green;
+        textField.color = Color.black;
+        switch (foodType)
+        {
+            case FoodType.SPEED:
+                Time.fixedDeltaTime = 0.03f;
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                Time.fixedDeltaTime = 0.07f;        
+                break;
+            case FoodType.MULTIPLIER:
+                uIController.increment = Constants.MULTIPLIER_INCREMENT;
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                uIController.increment = 1;
+                break;
+            case FoodType.SHIELD:
+                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                break;
+            default:
+                break;
+        }
+        fieldImg.color = Color.black;
+        textField.color = Color.white;
+        
     }
 }

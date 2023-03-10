@@ -6,13 +6,14 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject ShieldField;
-    [SerializeField] GameObject MultiplierField;
-    [SerializeField] GameObject SpeedField;
-    [SerializeField] TextMeshProUGUI ScoreField;
-    [SerializeField] GameObject PauseButton;
+    public GameObject ShieldField;
+    public GameObject MultiplierField;
+    public GameObject SpeedField;
+    public TextMeshProUGUI ScoreField;
+    public GameObject PauseButton;
 
     public int currentScore = 0;
+    public int increment = 1;
     
     void Start()
     {
@@ -30,6 +31,6 @@ public class UIController : MonoBehaviour
     }
 
     public void IncrementScore() {
-        currentScore += 1;
+        currentScore += increment;
     }
 }
