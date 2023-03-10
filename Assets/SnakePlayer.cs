@@ -92,7 +92,7 @@ public class SnakePlayer : MonoBehaviour
         UpdateSnakeDirection();
     }
 
-    private void WallCollision(Collider2D other) {
+    private void WallCollisionHandler(Collider2D other) {
         string name = other.gameObject.name;
         Vector3 currPos = transform.position;
         switch (name)
@@ -112,7 +112,7 @@ public class SnakePlayer : MonoBehaviour
         }
     }
 
-    private void FoodCollision(Collider2D other) {
+    private void FoodCollisionHandler(Collider2D other) {
         AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
         uIController.IncrementScore();
         switch (spawnedFood.foodType)
@@ -139,9 +139,9 @@ public class SnakePlayer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag(Constants.WALL)) {
-            WallCollision(other);
+            WallCollisionHandler(other);
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
-            FoodCollision(other);
+            FoodCollisionHandler(other);
         }
     }
 
@@ -153,9 +153,9 @@ public class SnakePlayer : MonoBehaviour
         switch (foodType)
         {
             case FoodType.SPEED:
-                Time.fixedDeltaTime = 0.02f;
+                Time.fixedDeltaTime = Constants.TIME_FIXED_DELTA_SPEED;
                 yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
-                Time.fixedDeltaTime = 0.05f;        
+                Time.fixedDeltaTime = Constants.TIME_FIXED_DELTA_NORMAL;        
                 break;
             case FoodType.MULTIPLIER:
                 uIController.increment = Constants.MULTIPLIER_INCREMENT;

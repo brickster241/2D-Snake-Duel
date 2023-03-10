@@ -27,10 +27,13 @@ public class Constants
     public const int SEGMENTS_MASS_GAINER = 4;
     public const int SEGMENTS_MASS_BURNER = 6;
     public const float POWER_UP_INTERVAL = 10f;
-    public const int MULTIPLIER_INCREMENT = 3;
+    public const int MULTIPLIER_INCREMENT = 5;
     public static readonly string[] SpriteText = {"M+", "", "M-", "S", "X", "++"};
     public static Color COLOR_FOOD_ENABLED = new Color(1, 0, 0, 1);
     public static Color COLOR_FOOD_DISABLED = new Color(1, 0, 0, 0);
+    public const float TIME_FIXED_DELTA_SPEED = 0.05f;
+    public const float TIME_FIXED_DELTA_NORMAL = 0.08f;
+    public const int MAIN_MENU_BUILD_INDEX = 0;
 
     public static Vector3Int ConvertToVector3Int(Vector3 position) {
         return new Vector3Int((int)Mathf.Round(position.x), (int)Mathf.Round(position.y), 0);
