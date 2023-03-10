@@ -4,22 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum SceneType {
-    MAIN_MENU,
-    ONE_PLAYER,
-    TWO_PLAYER
-}
+
 
 public class AudioManager : MonoBehaviour
 {
-    public static SceneType currentScene;
+    public static bool isTwoPlayer = false;
     public static AudioManager Instance { get; private set;}
     [SerializeField] AudioInfo[] sounds;
 
     private void Awake() {
         if (Instance == null) {
             Instance = this;
-            currentScene = SceneType.MAIN_MENU;
             DontDestroyOnLoad(gameObject);
         } else {
             Destroy(gameObject);
@@ -37,6 +32,12 @@ public class AudioManager : MonoBehaviour
         Instance.Play(AudioType.MAIN_MENU);
     }
 
+    private void Update() {
+        SceneType sceneType = (SceneType) SceneManager.GetActiveScene().buildIndex;
+        if (sceneType == SceneType.TWO_PLAYER)
+            isTwoPlayer = true;
+    }
+
     public void Play(AudioType audioType) {
         AudioInfo soundInfo = Array.Find(sounds, item => item.audioType == audioType);
         soundInfo.audioSource.Play();
@@ -47,9 +48,6 @@ public class AudioManager : MonoBehaviour
         soundInfo.audioSource.Stop();
     }
 
-    private void Update() {
-        currentScene = (SceneType) SceneManager.GetActiveScene().buildIndex; 
-    }
 }
 
 [System.Serializable]

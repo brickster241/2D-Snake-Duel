@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SceneType {
+    MAIN_MENU,
+    ONE_PLAYER,
+    TWO_PLAYER
+}
+
 public enum FoodType {
     MASS_GAINER,
     NORMAL,
@@ -35,7 +41,7 @@ public class Constants
     public const float TIME_FIXED_DELTA_NORMAL = 0.08f;
     public const int MAIN_MENU_BUILD_INDEX = 0;
     public const int SINGLE_PLAYER_BUILD_INDEX = 1;
-    public const int TWO_PLAYER_BUILD_INDEX = 1;
+    public const int TWO_PLAYER_BUILD_INDEX = 2;
     public const float SCENE_LOADING_WAIT_TIME = 0.038f;
     public const float SLOWED_DELAY_TIME_SCALE = 0.01f;
 

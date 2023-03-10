@@ -143,26 +143,29 @@ public class SnakeGameManager : MonoBehaviour
 
     private void FoodCollisionHandler(Collider2D other) {
         AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
-        uIController.IncrementScore();
+        uIController.IncrementScore(playerType);
         switch (spawnedFood.foodType)
         {
             case FoodType.SPEED:
                 if (speed != null)
                     StopCoroutine(speed);
                 AudioManager.Instance.Play(AudioType.POWER_PICKUP);
-                speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
+                GameObject speedField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1SpeedField : uIController.Player2SpeedField;
+                speed = StartCoroutine(EnablePowerUp(speedField, FoodType.SPEED));
                 break;
             case FoodType.MULTIPLIER:
                 if (multiplier != null)
                     StopCoroutine(multiplier);
                 AudioManager.Instance.Play(AudioType.POWER_PICKUP);
-                multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
+                GameObject multiPlierField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1MultiplierField : uIController.Player2MultiplierField;
+                multiplier = StartCoroutine(EnablePowerUp(multiPlierField, FoodType.MULTIPLIER));
                 break;
             case FoodType.SHIELD:
                 if (shield != null) 
                     StopCoroutine(shield);
                 AudioManager.Instance.Play(AudioType.POWER_PICKUP);
-                shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
+                GameObject shieldField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1ShieldField : uIController.Player2ShieldField;
+                shield = StartCoroutine(EnablePowerUp(shieldField, FoodType.SHIELD));
                 break;
             default:
                 AudioManager.Instance.Play(AudioType.FOOD_PICKUP);
@@ -191,9 +194,15 @@ public class SnakeGameManager : MonoBehaviour
                 Time.fixedDeltaTime = Constants.TIME_FIXED_DELTA_NORMAL;        
                 break;
             case FoodType.MULTIPLIER:
-                uIController.increment = Constants.MULTIPLIER_INCREMENT;
-                yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
-                uIController.increment = 1;
+                if (playerType == PlayerType.PLAYER_1) {
+                    uIController.Player1Increment = Constants.MULTIPLIER_INCREMENT;
+                    yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                    uIController.Player1Increment = 1;
+                } else {
+                    uIController.Player2Increment = Constants.MULTIPLIER_INCREMENT;
+                    yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                    uIController.Player2Increment = 1;
+                }
                 break;
             case FoodType.SHIELD:
                 yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);

@@ -7,32 +7,60 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    public GameObject ShieldField;
-    public GameObject MultiplierField;
-    public GameObject SpeedField;
-    [SerializeField] TextMeshProUGUI ScoreField;
+    public GameObject Player1ShieldField;
+    public GameObject Player1MultiplierField;
+    public GameObject Player1SpeedField;
+    [SerializeField] TextMeshProUGUI Player1ScoreField;
+    public GameObject Player2ShieldField;
+    public GameObject Player2MultiplierField;
+    public GameObject Player2SpeedField;
+    [SerializeField] TextMeshProUGUI Player2ScoreField;
     [SerializeField] GameObject PauseMenuUI;
     public GameObject PauseButton;
-    public int currentScore = 0;
-    public int increment = 1;
+    public int Player1CurrentScore = 0;
+    public int Player2CurrentScore = 0;
+    public int Player1Increment = 1;
+    public int Player2Increment = 1;
     
     void Start()
     {
-        currentScore = 0;
+        Player1CurrentScore = 0;
+        Player2CurrentScore = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateScore();
+        UpdateScore(PlayerType.PLAYER_1);
+        if (AudioManager.isTwoPlayer)
+            UpdateScore(PlayerType.PLAYER_2);
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+            OnPauseButtonClick();
     }
 
-    private void UpdateScore() {
-        ScoreField.text = "SCORE : " + currentScore;
+    private void UpdateScore(PlayerType playerType) {
+        switch (playerType)
+        {
+            case PlayerType.PLAYER_1:
+                Player1ScoreField.text = "SCORE : " + Player1CurrentScore;
+                break;
+            case PlayerType.PLAYER_2:
+                Player2ScoreField.text = "SCORE : " + Player2CurrentScore;
+                break;
+        }
     }
 
-    public void IncrementScore() {
-        currentScore += increment;
+    public void IncrementScore(PlayerType playerType) {
+        switch (playerType)
+        {
+            case PlayerType.PLAYER_1:
+                Player1CurrentScore += Player1Increment;
+                break;
+            case PlayerType.PLAYER_2:
+                Player2CurrentScore += Player2Increment;
+                break;
+        }
     }
 
     public void OnPauseButtonClick() {
