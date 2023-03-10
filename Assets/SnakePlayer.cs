@@ -21,6 +21,14 @@ public class SnakePlayer : MonoBehaviour
         snakeSegmentPositions = new List<Transform>();
         snakeSegmentPositions.Add(this.transform);
         gridManager.isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
+        StartCoroutine(WaitScene());
+    }
+
+    IEnumerator WaitScene() {
+        AudioManager.Instance.Play(AudioType.GAME_START);
+        Time.timeScale = Constants.SLOWED_DELAY_TIME_SCALE;
+        yield return new WaitForSeconds(Constants.SCENE_LOADING_WAIT_TIME);
+        Time.timeScale = 1f;
     }
 
     private void UpdateSnakeDirection() {
@@ -92,48 +100,60 @@ public class SnakePlayer : MonoBehaviour
         UpdateSnakeDirection();
     }
 
+    private void WallCollisionHandler(Collider2D other) {
+        string name = other.gameObject.name;
+        Vector3 currPos = transform.position;
+        switch (name)
+        {
+            case Constants.LEFT_WALL:
+                transform.position = new Vector3(Constants.X_BOUND, currPos.y, currPos.z);
+                break;
+            case Constants.RIGHT_WALL:
+                transform.position = new Vector3(-Constants.X_BOUND, currPos.y, currPos.z);
+                break;
+            case Constants.TOP_WALL:
+                transform.position = new Vector3(currPos.x, Constants.Y_BOUND_BOTTOM, currPos.z);
+                break;
+            case Constants.BOTTOM_WALL:
+                transform.position = new Vector3(currPos.x, Constants.Y_BOUND_TOP, currPos.z);
+                break;
+        }
+    }
+
+    private void FoodCollisionHandler(Collider2D other) {
+        AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
+        uIController.IncrementScore();
+        switch (spawnedFood.foodType)
+        {
+            case FoodType.SPEED:
+                if (speed != null)
+                    StopCoroutine(speed);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
+                break;
+            case FoodType.MULTIPLIER:
+                if (multiplier != null)
+                    StopCoroutine(multiplier);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
+                break;
+            case FoodType.SHIELD:
+                if (shield != null) 
+                    StopCoroutine(shield);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
+                break;
+            default:
+                AudioManager.Instance.Play(AudioType.FOOD_PICKUP);
+                break;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag(Constants.WALL)) {
-            string name = other.gameObject.name;
-            Vector3 currPos = transform.position;
-            switch (name)
-            {
-                case Constants.LEFT_WALL:
-                    transform.position = new Vector3(Constants.X_BOUND, currPos.y, currPos.z);
-                    break;
-                case Constants.RIGHT_WALL:
-                    transform.position = new Vector3(-Constants.X_BOUND, currPos.y, currPos.z);
-                    break;
-                case Constants.TOP_WALL:
-                    transform.position = new Vector3(currPos.x, Constants.Y_BOUND_BOTTOM, currPos.z);
-                    break;
-                case Constants.BOTTOM_WALL:
-                    transform.position = new Vector3(currPos.x, Constants.Y_BOUND_TOP, currPos.z);
-                    break;
-            }
+            WallCollisionHandler(other);
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
-            AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
-            uIController.IncrementScore();
-            switch (spawnedFood.foodType)
-            {
-                case FoodType.SPEED:
-                    if (speed != null)
-                        StopCoroutine(speed);
-                    speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
-                    break;
-                case FoodType.MULTIPLIER:
-                    if (multiplier != null)
-                        StopCoroutine(multiplier);
-                    multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
-                    break;
-                case FoodType.SHIELD:
-                    if (shield != null) 
-                        StopCoroutine(shield);
-                    shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
-                    break;
-                default:
-                    break;
-            }
+            FoodCollisionHandler(other);
         }
     }
 
@@ -145,9 +165,9 @@ public class SnakePlayer : MonoBehaviour
         switch (foodType)
         {
             case FoodType.SPEED:
-                Time.fixedDeltaTime = 0.03f;
+                Time.fixedDeltaTime = Constants.TIME_FIXED_DELTA_SPEED;
                 yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
-                Time.fixedDeltaTime = 0.07f;        
+                Time.fixedDeltaTime = Constants.TIME_FIXED_DELTA_NORMAL;        
                 break;
             case FoodType.MULTIPLIER:
                 uIController.increment = Constants.MULTIPLIER_INCREMENT;
