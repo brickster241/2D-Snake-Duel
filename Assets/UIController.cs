@@ -36,6 +36,7 @@ public class UIController : MonoBehaviour
     }
 
     public void OnPauseButtonClick() {
+        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
         TextMeshProUGUI pauseText = PauseButton.GetComponentInChildren<TextMeshProUGUI>();
         Image img = PauseButton.GetComponent<Image>();
 
@@ -47,9 +48,9 @@ public class UIController : MonoBehaviour
     }
 
     public void ResumePlay() {
+        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
         TextMeshProUGUI pauseText = PauseButton.GetComponentInChildren<TextMeshProUGUI>();
         Image img = PauseButton.GetComponent<Image>();
-        
         img.color = Color.cyan;
         pauseText.text = "PAUSE";
         PauseMenuUI.SetActive(false);
@@ -57,12 +58,16 @@ public class UIController : MonoBehaviour
     }
 
     public void RestartLevel() {
+        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
         int currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1f;
         SceneManager.LoadScene(currentSceneBuildIndex);
     }
 
     public void LoadMainMenu() {
+        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        AudioManager.Instance.Stop(AudioType.LEVEL);
+        AudioManager.Instance.Play(AudioType.MAIN_MENU);
         Time.timeScale = 1f;
         SceneManager.LoadScene(Constants.MAIN_MENU_BUILD_INDEX);
     }

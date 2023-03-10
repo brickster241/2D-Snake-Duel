@@ -34,6 +34,10 @@ public class Constants
     public const float TIME_FIXED_DELTA_SPEED = 0.05f;
     public const float TIME_FIXED_DELTA_NORMAL = 0.08f;
     public const int MAIN_MENU_BUILD_INDEX = 0;
+    public const int SINGLE_PLAYER_BUILD_INDEX = 1;
+    public const int TWO_PLAYER_BUILD_INDEX = 1;
+    public const float SCENE_LOADING_WAIT_TIME = 0.038f;
+    public const float SLOWED_DELAY_TIME_SCALE = 0.01f;
 
     public static Vector3Int ConvertToVector3Int(Vector3 position) {
         return new Vector3Int((int)Mathf.Round(position.x), (int)Mathf.Round(position.y), 0);

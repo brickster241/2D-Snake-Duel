@@ -21,6 +21,14 @@ public class SnakePlayer : MonoBehaviour
         snakeSegmentPositions = new List<Transform>();
         snakeSegmentPositions.Add(this.transform);
         gridManager.isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
+        StartCoroutine(WaitScene());
+    }
+
+    IEnumerator WaitScene() {
+        AudioManager.Instance.Play(AudioType.GAME_START);
+        Time.timeScale = Constants.SLOWED_DELAY_TIME_SCALE;
+        yield return new WaitForSeconds(Constants.SCENE_LOADING_WAIT_TIME);
+        Time.timeScale = 1f;
     }
 
     private void UpdateSnakeDirection() {
@@ -120,19 +128,23 @@ public class SnakePlayer : MonoBehaviour
             case FoodType.SPEED:
                 if (speed != null)
                     StopCoroutine(speed);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
                 speed = StartCoroutine(EnablePowerUp(uIController.SpeedField, FoodType.SPEED));
                 break;
             case FoodType.MULTIPLIER:
                 if (multiplier != null)
                     StopCoroutine(multiplier);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
                 multiplier = StartCoroutine(EnablePowerUp(uIController.MultiplierField, FoodType.MULTIPLIER));
                 break;
             case FoodType.SHIELD:
                 if (shield != null) 
                     StopCoroutine(shield);
+                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
                 shield = StartCoroutine(EnablePowerUp(uIController.ShieldField, FoodType.SHIELD));
                 break;
             default:
+                AudioManager.Instance.Play(AudioType.FOOD_PICKUP);
                 break;
         }
     }
