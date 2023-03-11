@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LobbyController : MonoBehaviour
 {
     [SerializeField] GameObject MainMenuUI;
     [SerializeField] GameObject GameTypeUI;
+    [SerializeField] TextMeshProUGUI highScoreText;
 
     public void StartGame() {
         AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
@@ -37,5 +39,9 @@ public class LobbyController : MonoBehaviour
         AudioManager.Instance.Stop(AudioType.MAIN_MENU);
         AudioManager.Instance.Play(AudioType.LEVEL);
         SceneManager.LoadScene(Constants.TWO_PLAYER_BUILD_INDEX);
+    }
+
+    private void Update() {
+        highScoreText.text = "HIGH SCORE : " + PlayerPrefs.GetInt(Constants.HIGH_SCORE, 0);
     }
 }

@@ -22,15 +22,18 @@ public class SnakeGameManager : MonoBehaviour
     Coroutine multiplier = null;
     Coroutine shield = null;
     public GridManager gridManager;
-    public GameObject snakeSegmentPrefab;
+    [SerializeField] GameObject snakeSegmentPrefab;
+    private bool isShieldActive = false;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake() {
         playerDirection = (playerType == PlayerType.PLAYER_1) ? Vector2.right : Vector2.left;
-        this.GetComponent<SpriteRenderer>().color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan;
-        snakeSegmentPrefab.GetComponent<SpriteRenderer>().color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan; 
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.color = (playerType == PlayerType.PLAYER_1) ? Color.green : Color.cyan; 
     }
 
     private void Start() {
+        isShieldActive = false;
         snakeSegmentPositions = new List<Transform>();
         snakeSegmentPositions.Add(this.transform);
         gridManager.isSnakeSegmentOnTile.Add(Constants.ConvertToVector3Int(this.transform.position), true);
@@ -178,6 +181,26 @@ public class SnakeGameManager : MonoBehaviour
             WallCollisionHandler(other);
         } else if (other.gameObject.CompareTag(Constants.FOOD)) {
             FoodCollisionHandler(other);
+        } else if (other.gameObject.CompareTag(Constants.SNAKE_SEGMENT)) {
+            SegmentCollisionHandler(other);
+        }
+    }
+
+    private void SegmentCollisionHandler(Collider2D other) {
+        float spriteBlue = other.gameObject.GetComponent<SpriteRenderer>().color.b;
+        if (spriteRenderer.color.b != spriteBlue) {
+            gridManager.isGameOver = true;
+            if (other.gameObject.GetComponent<SnakeGameManager>() != null && playerType == PlayerType.PLAYER_1) {
+                int Player1Score = uIController.Player1CurrentScore;
+                int player2Score = uIController.Player2CurrentScore;
+                PlayerType winPlayer = (Player1Score >= player2Score) ? PlayerType.PLAYER_1 : PlayerType.PLAYER_2;
+                uIController.DisplayGameOverUI(true, winPlayer);   
+            } else {
+                uIController.DisplayGameOverUI(false, playerType);
+            }
+        } else if (!isShieldActive) {
+            gridManager.isGameOver = true;
+            uIController.DisplayGameOverUI(false, playerType);
         }
     }
 
@@ -205,7 +228,9 @@ public class SnakeGameManager : MonoBehaviour
                 }
                 break;
             case FoodType.SHIELD:
+                isShieldActive = true;
                 yield return new WaitForSeconds(Constants.POWER_UP_INTERVAL);
+                isShieldActive = false;
                 break;
             default:
                 break;

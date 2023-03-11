@@ -25,6 +25,8 @@ public class Constants
     public const string TOP_WALL = "Top";
     public const string BOTTOM_WALL = "Bottom";
     public const string FOOD = "Food";
+    public const string SNAKE_SEGMENT = "SnakeSegment";
+    public const string HIGH_SCORE = "HIGHSCORE";
     public const int X_BOUND = 24;
     public const int Y_BOUND_TOP = 10;
     public const int Y_BOUND_BOTTOM = -12;
