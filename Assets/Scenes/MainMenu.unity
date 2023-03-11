@@ -2061,27 +2061,27 @@ MonoBehaviour:
   sounds:
   - audioType: 2
     audioClip: {fileID: 8300000, guid: a19e8fd65255e8e4e8081ae0ce7076f5, type: 3}
-    volume: 1
+    volume: 0.1
     loop: 0
     audioSource: {fileID: 0}
   - audioType: 3
     audioClip: {fileID: 8300000, guid: 4f3efef32bde9d043b2a6f785434cef7, type: 3}
-    volume: 0.75
+    volume: 0.1
     loop: 0
     audioSource: {fileID: 0}
   - audioType: 4
     audioClip: {fileID: 8300000, guid: 1eacacb8267fe454c8a44ba461062af6, type: 3}
-    volume: 0.5
+    volume: 0.1
     loop: 0
     audioSource: {fileID: 0}
   - audioType: 1
     audioClip: {fileID: 8300000, guid: 55fd7854f5a43f443855dcc0b92d62c3, type: 3}
-    volume: 0.5
+    volume: 0.05
     loop: 1
     audioSource: {fileID: 0}
   - audioType: 0
     audioClip: {fileID: 8300000, guid: 300070a9e843b3844b77b1a34411ac4b, type: 3}
-    volume: 0.5
+    volume: 0.1
     loop: 1
     audioSource: {fileID: 0}
 --- !u!1 &1391961211

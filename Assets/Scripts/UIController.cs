@@ -52,7 +52,7 @@ public class UIController : MonoBehaviour
             if (Player1CurrentScore == Player2CurrentScore)
                 GameOverUIScoreField.text = "GREEN AND BLUE HAVE SAME SCORE. IT'S A DRAW !";
         } else {
-            GameOverUIScoreField.text = (playerType == PlayerType.PLAYER_1) ? "GREEN COLLIDED WITH BLUE. BLUE WINS !" : "BLUE COLLIDED WITH GREEN. GREEN WINS !"; 
+            GameOverUIScoreField.text = (playerType == PlayerType.PLAYER_1) ? "GREEN COLLIDED. BLUE WINS !" : "BLUE COLLIDED. GREEN WINS !"; 
         }
         Time.timeScale = 0f;
     }
