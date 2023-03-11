@@ -66,11 +66,11 @@ public class AppleSpawner : MonoBehaviour
         } else if (100 <= random && random < 200) {
             foodType = FoodType.MASS_BURNER;
         } else if (200 <= random && random < 300) {
-            foodType = FoodType.SPEED;
-        } else if (300 <= random && random < 400) {
             foodType = FoodType.MULTIPLIER;
-        } else if (400 <= random && random < 500) {
+        } else if (300 <= random && random < 400) {
             foodType = FoodType.SHIELD;
+        } else if (400 <= random && random < 500 && !AudioManager.Instance.isTwoPlayer) {
+            foodType = FoodType.SPEED;
         } else {
             foodType = FoodType.NORMAL;
         }
