@@ -11,6 +11,7 @@ public class FoodSpawner : MonoBehaviour
     [SerializeField] GridManager gridManager;
     [HideInInspector] public FoodType foodType;
     TextMeshPro spriteText;
+    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

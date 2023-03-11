@@ -59,14 +59,12 @@ public class SnakePlayerController : MonoBehaviour
         UpdatePlayerMovementAndColor();
     } 
 
-    // additionalSegments will change based on MASS_GAINER
     public void AddSnakeSegments(FoodType foodType) {
         int additionalSegments = (foodType == FoodType.MASS_GAINER) ? Constants.SEGMENTS_MASS_GAINER : 1;
         for (int i = 0; i < additionalSegments; i++)
             AddSnakeSegment();
     }
 
-    // decreaseSegments will change based on MASS_BURNER
     public void RemoveSnakeSegments() {
         int startingIndex = Mathf.Max(snakeSegmentPositions.Count - Constants.SEGMENTS_MASS_BURNER, 1);
         int initialLength = snakeSegmentPositions.Count;

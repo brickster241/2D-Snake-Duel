@@ -32,7 +32,6 @@ public class UIController : MonoBehaviour
         Player2CurrentScore = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateScore(PlayerType.PLAYER_1);
