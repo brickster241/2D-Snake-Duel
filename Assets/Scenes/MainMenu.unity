@@ -2064,12 +2064,12 @@ MonoBehaviour:
     volume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - audioType: 5
+  - audioType: 3
     audioClip: {fileID: 8300000, guid: 4f3efef32bde9d043b2a6f785434cef7, type: 3}
     volume: 0.75
     loop: 0
     audioSource: {fileID: 0}
-  - audioType: 6
+  - audioType: 4
     audioClip: {fileID: 8300000, guid: 1eacacb8267fe454c8a44ba461062af6, type: 3}
     volume: 0.5
     loop: 0

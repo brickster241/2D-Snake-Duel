@@ -987,7 +987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 700, y: -65}
+  m_AnchoredPosition: {x: 710, y: -65}
   m_SizeDelta: {x: 250, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &247584123
@@ -2244,7 +2244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -700, y: -65}
+  m_AnchoredPosition: {x: -710, y: -65}
   m_SizeDelta: {x: 250, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &696798154
@@ -5469,7 +5469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac3d48a1a6d6834baa01c41c4c8b56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 1
   SnakeSegments: {fileID: 1572148430}
   uIController: {fileID: 1828131860}
   gridManager: {fileID: 1871550860}
