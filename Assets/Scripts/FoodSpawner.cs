@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class AppleSpawner : MonoBehaviour
+public class FoodSpawner : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     BoxCollider2D bc2d;
@@ -18,7 +18,7 @@ public class AppleSpawner : MonoBehaviour
         spriteText = GetComponentInChildren<TextMeshPro>();
         foodType = FoodType.NORMAL;
         spriteText.text = Constants.SpriteText[(int)foodType];
-        StartCoroutine(FoodSpawner());
+        StartCoroutine(SpawnFood());
     }
 
     void RespawnApple() {
@@ -32,19 +32,19 @@ public class AppleSpawner : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.GetComponent<SnakeGameManager>() != null) {
-            SnakeGameManager snakePlayer = other.gameObject.GetComponent<SnakeGameManager>();
+        if (other.gameObject.GetComponent<SnakePlayerController>() != null) {
+            SnakePlayerController snakePlayer = other.gameObject.GetComponent<SnakePlayerController>();
             StopAllCoroutines();
             if (foodType != FoodType.MASS_BURNER) {
                 snakePlayer.AddSnakeSegments(foodType);
             } else {
                 snakePlayer.RemoveSnakeSegments();
             }   
-            StartCoroutine(FoodSpawner());
+            StartCoroutine(SpawnFood());
         }
     }
 
-    IEnumerator FoodSpawner() {
+    IEnumerator SpawnFood() {
         while (!gridManager.isGameOver) {
             spriteRenderer.color = Constants.COLOR_FOOD_DISABLED;
             bc2d.enabled = false;
@@ -69,7 +69,7 @@ public class AppleSpawner : MonoBehaviour
             foodType = FoodType.MULTIPLIER;
         } else if (300 <= random && random < 400) {
             foodType = FoodType.SHIELD;
-        } else if (400 <= random && random < 500 && !AudioManager.Instance.isTwoPlayer) {
+        } else if (400 <= random && random < 500 && !GameplayManager.Instance.isTwoPlayer) {
             foodType = FoodType.SPEED;
         } else {
             foodType = FoodType.NORMAL;

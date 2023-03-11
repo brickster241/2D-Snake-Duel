@@ -22,7 +22,7 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         isGameOver = false;
-        AudioManager.Instance.isTwoPlayer = (SceneManager.GetActiveScene().buildIndex == (int)SceneType.TWO_PLAYER);
+        GameplayManager.Instance.isTwoPlayer = (SceneManager.GetActiveScene().buildIndex == (int)SceneType.TWO_PLAYER);
         isSnakeSegmentOnTile = new Dictionary<Vector3Int, bool>();
     }
 }

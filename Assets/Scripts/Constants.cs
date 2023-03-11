@@ -2,6 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class AudioInfo {
+    public AudioType audioType;
+    public AudioClip audioClip;
+
+    [Range(0f, 1f)]
+    public float volume;
+    public bool loop;
+
+    [HideInInspector]
+    public AudioSource audioSource;
+}
+
+public enum PlayerType {
+    PLAYER_1,
+    PLAYER_2
+}
+
+public enum AudioType {
+    MAIN_MENU,
+    LEVEL,
+    BUTTON_CLICK,
+    GAME_OVER,
+    GAME_START,
+    FOOD_PICKUP,
+    POWER_PICKUP,
+    MOVEMENT
+}
+
 public enum SceneType {
     MAIN_MENU,
     ONE_PLAYER,

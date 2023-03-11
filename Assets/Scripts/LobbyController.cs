@@ -12,42 +12,42 @@ public class LobbyController : MonoBehaviour
     [SerializeField] TextMeshProUGUI highScoreText;
 
     public void StartGame() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         MainMenuUI.SetActive(false);
         HowToPlayUI.SetActive(false);
         GameTypeUI.SetActive(true);
     }
 
     public void BackToStart() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         GameTypeUI.SetActive(false);
         HowToPlayUI.SetActive(false);
         MainMenuUI.SetActive(true);
     }
 
     public void ViewInstructions() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         GameTypeUI.SetActive(false);
         MainMenuUI.SetActive(false);
         HowToPlayUI.SetActive(true);
     }
 
     public void QuitApplication() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         Application.Quit();
     }
 
     public void StartSinglePlayer() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
-        AudioManager.Instance.Stop(AudioType.MAIN_MENU);
-        AudioManager.Instance.Play(AudioType.LEVEL);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.StopAudio(AudioType.MAIN_MENU);
+        GameplayManager.Instance.PlayAudio(AudioType.LEVEL);
         SceneManager.LoadScene(Constants.SINGLE_PLAYER_BUILD_INDEX);
     }
 
     public void StartTwoPlayer() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
-        AudioManager.Instance.Stop(AudioType.MAIN_MENU);
-        AudioManager.Instance.Play(AudioType.LEVEL);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.StopAudio(AudioType.MAIN_MENU);
+        GameplayManager.Instance.PlayAudio(AudioType.LEVEL);
         SceneManager.LoadScene(Constants.TWO_PLAYER_BUILD_INDEX);
     }
 
