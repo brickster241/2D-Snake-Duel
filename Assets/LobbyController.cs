@@ -8,18 +8,28 @@ public class LobbyController : MonoBehaviour
 {
     [SerializeField] GameObject MainMenuUI;
     [SerializeField] GameObject GameTypeUI;
+    [SerializeField] GameObject HowToPlayUI;
     [SerializeField] TextMeshProUGUI highScoreText;
 
     public void StartGame() {
         AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
         MainMenuUI.SetActive(false);
+        HowToPlayUI.SetActive(false);
         GameTypeUI.SetActive(true);
     }
 
     public void BackToStart() {
         AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
         GameTypeUI.SetActive(false);
+        HowToPlayUI.SetActive(false);
         MainMenuUI.SetActive(true);
+    }
+
+    public void ViewInstructions() {
+        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameTypeUI.SetActive(false);
+        MainMenuUI.SetActive(false);
+        HowToPlayUI.SetActive(true);
     }
 
     public void QuitApplication() {

@@ -189,8 +189,9 @@ public class SnakeGameManager : MonoBehaviour
     private void SegmentCollisionHandler(Collider2D other) {
         float spriteBlue = other.gameObject.GetComponent<SpriteRenderer>().color.b;
         if (spriteRenderer.color.b != spriteBlue) {
+            // Collided with Another Snake
             gridManager.isGameOver = true;
-            if (other.gameObject.GetComponent<SnakeGameManager>() != null && playerType == PlayerType.PLAYER_1) {
+            if (other.gameObject.GetComponent<SnakeGameManager>() != null) {
                 int Player1Score = uIController.Player1CurrentScore;
                 int player2Score = uIController.Player2CurrentScore;
                 PlayerType winPlayer = (Player1Score >= player2Score) ? PlayerType.PLAYER_1 : PlayerType.PLAYER_2;
