@@ -32,11 +32,10 @@ public class UIController : MonoBehaviour
         Player2CurrentScore = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateScore(PlayerType.PLAYER_1);
-        if (AudioManager.Instance.isTwoPlayer)
+        if (GameplayManager.Instance.isTwoPlayer)
             UpdateScore(PlayerType.PLAYER_2);
         if (Input.GetKeyDown(KeyCode.Space))
             OnPauseButtonClick();
@@ -44,7 +43,7 @@ public class UIController : MonoBehaviour
 
     public void DisplayGameOverUI(bool isHeadOnCollision, PlayerType playerType) {
         GameOverUI.SetActive(true);
-        if (!AudioManager.Instance.isTwoPlayer) {
+        if (!GameplayManager.Instance.isTwoPlayer) {
             // Single Player
             GameOverUIScoreField.text = "YOUR SCORE : " + Player1CurrentScore;
             PlayerPrefs.SetInt(Constants.HIGH_SCORE, Mathf.Max(Player1CurrentScore, PlayerPrefs.GetInt(Constants.HIGH_SCORE, 0)));
@@ -83,7 +82,7 @@ public class UIController : MonoBehaviour
     }
 
     public void OnPauseButtonClick() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         TextMeshProUGUI pauseText = PauseButton.GetComponentInChildren<TextMeshProUGUI>();
         Image img = PauseButton.GetComponent<Image>();
 
@@ -95,7 +94,7 @@ public class UIController : MonoBehaviour
     }
 
     public void ResumePlay() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         TextMeshProUGUI pauseText = PauseButton.GetComponentInChildren<TextMeshProUGUI>();
         Image img = PauseButton.GetComponent<Image>();
         img.color = Color.cyan;
@@ -105,16 +104,16 @@ public class UIController : MonoBehaviour
     }
 
     public void RestartLevel() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
         int currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1f;
         SceneManager.LoadScene(currentSceneBuildIndex);
     }
 
     public void LoadMainMenu() {
-        AudioManager.Instance.Play(AudioType.BUTTON_CLICK);
-        AudioManager.Instance.Stop(AudioType.LEVEL);
-        AudioManager.Instance.Play(AudioType.MAIN_MENU);
+        GameplayManager.Instance.PlayAudio(AudioType.BUTTON_CLICK);
+        GameplayManager.Instance.StopAudio(AudioType.LEVEL);
+        GameplayManager.Instance.PlayAudio(AudioType.MAIN_MENU);
         Time.timeScale = 1f;
         SceneManager.LoadScene(Constants.MAIN_MENU_BUILD_INDEX);
     }

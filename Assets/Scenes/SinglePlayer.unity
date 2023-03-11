@@ -1748,8 +1748,8 @@ GameObject:
   m_Component:
   - component: {fileID: 665272870}
   - component: {fileID: 665272869}
-  - component: {fileID: 665272871}
   - component: {fileID: 665272872}
+  - component: {fileID: 665272873}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Food
@@ -1825,20 +1825,6 @@ Transform:
   m_Father: {fileID: 1321208716}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &665272871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 665272868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4471168b1f2344445af2e8ca4025aea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1871550860}
-  foodType: 0
 --- !u!61 &665272872
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1865,6 +1851,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &665272873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665272868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70471d598d08717428747f930d257d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1871550860}
+  foodType: 0
 --- !u!1 &679869691
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,8 +3466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1639892091}
   - component: {fileID: 1639892094}
-  - component: {fileID: 1639892093}
   - component: {fileID: 1639892092}
+  - component: {fileID: 1639892095}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Food
@@ -3517,20 +3517,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &1639892093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639892090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4471168b1f2344445af2e8ca4025aea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1871550860}
-  foodType: 0
 --- !u!212 &1639892094
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3583,6 +3569,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1639892095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639892090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70471d598d08717428747f930d257d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1871550860}
+  foodType: 0
 --- !u!1 &1696920903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,8 +3593,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1696920904}
   - component: {fileID: 1696920907}
-  - component: {fileID: 1696920906}
   - component: {fileID: 1696920905}
+  - component: {fileID: 1696920908}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Food
@@ -3644,20 +3644,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &1696920906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696920903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4471168b1f2344445af2e8ca4025aea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1871550860}
-  foodType: 0
 --- !u!212 &1696920907
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3710,6 +3696,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1696920908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696920903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70471d598d08717428747f930d257d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridManager: {fileID: 1871550860}
+  foodType: 0
 --- !u!1 &1700301986
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,7 +4586,7 @@ GameObject:
   - component: {fileID: 1828131856}
   - component: {fileID: 1828131860}
   m_Layer: 5
-  m_Name: GameUI
+  m_Name: LevelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5142,7 +5142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2050153902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f96e813f6ca674f834261395c8d34e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ac3d48a1a6d6834baa01c41c4c8b56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0

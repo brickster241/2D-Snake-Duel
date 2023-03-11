@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 
 
-public class AudioManager : MonoBehaviour
+public class GameplayManager : MonoBehaviour
 {
     public bool isTwoPlayer = false;
-    public static AudioManager Instance { get; private set;}
+    public static GameplayManager Instance { get; private set;}
     [SerializeField] AudioInfo[] sounds;
 
     private void Awake() {
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
     }
 
     private void Start() {
-        Instance.Play(AudioType.MAIN_MENU);
+        Instance.PlayAudio(AudioType.MAIN_MENU);
     }
 
     private void Update() {
@@ -38,38 +38,15 @@ public class AudioManager : MonoBehaviour
             isTwoPlayer = true;
     }
 
-    public void Play(AudioType audioType) {
+    public void PlayAudio(AudioType audioType) {
         AudioInfo soundInfo = Array.Find(sounds, item => item.audioType == audioType);
         soundInfo.audioSource.Play();
     }
 
-    public void Stop(AudioType audioType) {
+    public void StopAudio(AudioType audioType) {
         AudioInfo soundInfo = Array.Find(sounds, item => item.audioType == audioType);
         soundInfo.audioSource.Stop();
     }
 
 }
 
-[System.Serializable]
-public class AudioInfo {
-    public AudioType audioType;
-    public AudioClip audioClip;
-
-    [Range(0f, 1f)]
-    public float volume;
-    public bool loop;
-
-    [HideInInspector]
-    public AudioSource audioSource;
-}
-
-public enum AudioType {
-    MAIN_MENU,
-    LEVEL,
-    BUTTON_CLICK,
-    GAME_OVER,
-    GAME_START,
-    FOOD_PICKUP,
-    POWER_PICKUP,
-    MOVEMENT
-}

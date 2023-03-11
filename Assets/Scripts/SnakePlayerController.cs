@@ -5,13 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public enum PlayerType {
-    PLAYER_1,
-    PLAYER_2
-}
-
-
-public class SnakeGameManager : MonoBehaviour
+public class SnakePlayerController : MonoBehaviour
 {
     [SerializeField] PlayerType playerType;
     [SerializeField] Transform SnakeSegments;
@@ -65,14 +59,12 @@ public class SnakeGameManager : MonoBehaviour
         UpdatePlayerMovementAndColor();
     } 
 
-    // additionalSegments will change based on MASS_GAINER
     public void AddSnakeSegments(FoodType foodType) {
         int additionalSegments = (foodType == FoodType.MASS_GAINER) ? Constants.SEGMENTS_MASS_GAINER : 1;
         for (int i = 0; i < additionalSegments; i++)
             AddSnakeSegment();
     }
 
-    // decreaseSegments will change based on MASS_BURNER
     public void RemoveSnakeSegments() {
         int startingIndex = Mathf.Max(snakeSegmentPositions.Count - Constants.SEGMENTS_MASS_BURNER, 1);
         int initialLength = snakeSegmentPositions.Count;
@@ -145,33 +137,33 @@ public class SnakeGameManager : MonoBehaviour
     }
 
     private void FoodCollisionHandler(Collider2D other) {
-        AppleSpawner spawnedFood = other.gameObject.GetComponent<AppleSpawner>();
+        FoodSpawner spawnedFood = other.gameObject.GetComponent<FoodSpawner>();
         uIController.IncrementScore(playerType);
         switch (spawnedFood.foodType)
         {
             case FoodType.SPEED:
                 if (speed != null)
                     StopCoroutine(speed);
-                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                GameplayManager.Instance.PlayAudio(AudioType.POWER_PICKUP);
                 GameObject speedField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1SpeedField : uIController.Player2SpeedField;
                 speed = StartCoroutine(EnablePowerUp(speedField, FoodType.SPEED));
                 break;
             case FoodType.MULTIPLIER:
                 if (multiplier != null)
                     StopCoroutine(multiplier);
-                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                GameplayManager.Instance.PlayAudio(AudioType.POWER_PICKUP);
                 GameObject multiPlierField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1MultiplierField : uIController.Player2MultiplierField;
                 multiplier = StartCoroutine(EnablePowerUp(multiPlierField, FoodType.MULTIPLIER));
                 break;
             case FoodType.SHIELD:
                 if (shield != null) 
                     StopCoroutine(shield);
-                AudioManager.Instance.Play(AudioType.POWER_PICKUP);
+                GameplayManager.Instance.PlayAudio(AudioType.POWER_PICKUP);
                 GameObject shieldField = (playerType == PlayerType.PLAYER_1) ? uIController.Player1ShieldField : uIController.Player2ShieldField;
                 shield = StartCoroutine(EnablePowerUp(shieldField, FoodType.SHIELD));
                 break;
             default:
-                AudioManager.Instance.Play(AudioType.FOOD_PICKUP);
+                GameplayManager.Instance.PlayAudio(AudioType.FOOD_PICKUP);
                 break;
         }
     }
@@ -191,7 +183,7 @@ public class SnakeGameManager : MonoBehaviour
         if (spriteRenderer.color.b != spriteBlue) {
             // Collided with Another Snake
             gridManager.isGameOver = true;
-            if (other.gameObject.GetComponent<SnakeGameManager>() != null) {
+            if (other.gameObject.GetComponent<SnakePlayerController>() != null) {
                 int Player1Score = uIController.Player1CurrentScore;
                 int player2Score = uIController.Player2CurrentScore;
                 PlayerType winPlayer = (Player1Score >= player2Score) ? PlayerType.PLAYER_1 : PlayerType.PLAYER_2;
