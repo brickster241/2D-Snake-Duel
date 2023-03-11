@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    public static bool isTwoPlayer = false;
+    public bool isTwoPlayer = false;
     public static AudioManager Instance { get; private set;}
     [SerializeField] AudioInfo[] sounds;
 

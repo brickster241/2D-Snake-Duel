@@ -16,6 +16,10 @@ public class UIController : MonoBehaviour
     public GameObject Player2SpeedField;
     [SerializeField] TextMeshProUGUI Player2ScoreField;
     [SerializeField] GameObject PauseMenuUI;
+    [SerializeField] GameObject GameOverUI;
+    [SerializeField] TextMeshProUGUI GameOverMainTextHeading;
+    [SerializeField] TextMeshProUGUI GameOverUIScoreField;
+    [SerializeField] GridManager gridManager;
     public GameObject PauseButton;
     public int Player1CurrentScore = 0;
     public int Player2CurrentScore = 0;
@@ -32,11 +36,26 @@ public class UIController : MonoBehaviour
     void Update()
     {
         UpdateScore(PlayerType.PLAYER_1);
-        if (AudioManager.isTwoPlayer)
+        if (AudioManager.Instance.isTwoPlayer)
             UpdateScore(PlayerType.PLAYER_2);
-        
         if (Input.GetKeyDown(KeyCode.Space))
             OnPauseButtonClick();
+    }
+
+    public void DisplayGameOverUI(bool isHeadOnCollision, PlayerType playerType) {
+        GameOverUI.SetActive(true);
+        if (!AudioManager.Instance.isTwoPlayer) {
+            // Single Player
+            GameOverUIScoreField.text = "YOUR SCORE : " + Player1CurrentScore;
+            PlayerPrefs.SetInt(Constants.HIGH_SCORE, Mathf.Max(Player1CurrentScore, PlayerPrefs.GetInt(Constants.HIGH_SCORE, 0)));
+        } else if (isHeadOnCollision) {
+            GameOverUIScoreField.text = (Player1CurrentScore > Player2CurrentScore) ? "GREEN HAS HIGHER SCORE THAN BLUE. GREEN WINS !" : "BLUE HAS HIGHER SCORE THAN GREEN. BLUE WINS !";
+            if (Player1CurrentScore == Player2CurrentScore)
+                GameOverUIScoreField.text = "GREEN AND BLUE HAVE SAME SCORE. IT'S A DRAW !";
+        } else {
+            GameOverUIScoreField.text = (playerType == PlayerType.PLAYER_1) ? "GREEN COLLIDED WITH BLUE. BLUE WINS !" : "BLUE COLLIDED WITH GREEN. GREEN WINS !"; 
+        }
+        Time.timeScale = 0f;
     }
 
     private void UpdateScore(PlayerType playerType) {
